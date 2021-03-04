@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Записи сообщества {{ group.title }}{% endblock %}
+{% block header %}{{ group.title }}{% endblock %}
+{% block content %}
+     <h1>{{ group.title }}</h1>
+    <p>
+        {{ group.description }}
+    </p>
+  {% for post in page %}
+    <h3>
+        Автор: <!--Лев Толстой-->{{ post.author }}, дата публикации: {{ post.pub_date|date:"d M Y" }}
+    </h3>
+    <p>{{ post.text }}</p>
+    {% include "includes/image_card.html" %}
+    <hr>
+  {% endfor %}
+  {% include "paginator.html" %}
+{% endblock %}

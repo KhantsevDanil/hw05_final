@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}
+    {% if post %}  Редактировать записть
+    {% else%}   Добавить новую запись
+    {% endif %}
+{% endblock %}
+{% block content %}
+{# загружаем фильтр #}
+{% load user_filters %}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+        <div class="card">
+            <div class="card-header">
+            {% block card-header %}
+                {% if post %}  Редактировать записть
+                {% else%}   Добавить новую запись
+                {% endif %}
+            {% endblock %}
+            </div>
+            <div class="card-body">
+                    {% for error in form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="col-md-6 offset-md-4">
+                        <label>{{field.label}}</label>
+                                 {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-primary">
+                            {% block submit_button %}Добавить{% endblock %}
+                        </button>
+                    </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
