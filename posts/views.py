@@ -13,14 +13,11 @@ def index(request):
     paginator = Paginator(post_list, settings.POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    return render(
-            request,
-            'posts/index.html',
-            {'page': page,
-             'paginator': paginator,
-             'post_list': post_list,},
-        )
-
+    return render(request, 'posts/index.html', {'page': page,
+                                                'paginator': paginator,
+                                                'post_list': post_list,
+                                                }
+                 )
 
 
 def group_posts(request, slug):
@@ -30,12 +27,12 @@ def group_posts(request, slug):
     paginator = Paginator(post_list, settings.POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    
-    return render(
-        request,
-        'group.html',
-        {'page': page, 'group': group, 'paginator': paginator}
-    )
+
+    return render(request, 'posts/index.html', {'page': page,
+                                                'paginator': paginator,
+                                                'group': group,
+                                                }
+                  )
 
 
 @login_required
@@ -71,14 +68,13 @@ def post_view(request, username, post_id):
     count=post.author.posts.count()
     comments = post.comments.all()
     form = CommentForm(request.POST or None)
-    return render(request,
-                  'posts/post.html',
-                  {'post': post,
-                   'author': post.author,
-                   'count': count,
-                   'comments': comments,
-                   'form': form,}
-                  )
+    return render(request, 'posts/post.html', {'post': post,
+                                               'author': post.author,
+                                               'count': count,
+                                               'comments': comments,
+                                               'form': form,
+                                               }
+                 )
 
 
 @login_required
@@ -96,6 +92,7 @@ def post_edit(request, username, post_id):
                   'posts/new_post.html',
                   {'form': form, 'item': item})
 
+
 def page_not_found(request, exception):
     # Переменная exception содержит отладочную информацию,
     # выводить её в шаблон пользователской страницы 404 мы не станем
@@ -106,8 +103,10 @@ def page_not_found(request, exception):
         status=404
     )
 
+
 def server_error(request):
     return render(request, 'misc/500.html', status=500)
+
 
 @login_required
 def add_comment(request, username, post_id):
@@ -121,6 +120,7 @@ def add_comment(request, username, post_id):
     return redirect(reverse('posts:post_view',
                             kwargs={'username': author.username,
                                     "post_id": post.id}))
+
 
 @login_required
 def follow_index(request):
@@ -139,6 +139,7 @@ def follow_index(request):
         }
     )
 
+
 @login_required
 def profile_follow(request, username):
     """Функция для подписки на автора"""
@@ -147,6 +148,7 @@ def profile_follow(request, username):
     if currently_user != author:
         Follow.objects.get_or_create(user=currently_user, author=author)
     return redirect('posts:profile', username=username)
+
 
 @login_required
 def profile_unfollow(request, username):
