@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.urls import reverse
 
-from posts.models import Comment, Follow, Group, Post, User
+from posts.models import Follow, Group, Post, User
 
 USERNAME = 'test_user'
 USERNAME_FOLLOWING = 'test_following'
@@ -16,6 +16,7 @@ ABOUT_AUTHOR_URL = reverse('about:author')
 ABOUT_TECH_URL = reverse('about:tech')
 FOLLOW_URL = reverse('posts:profile_follow', args=[USERNAME_FOLLOWING])
 UNFOLLOW_URL = reverse('posts:profile_unfollow', args=[USERNAME_FOLLOWING])
+
 
 class PostPagesTests(TestCase):
     @classmethod
@@ -88,6 +89,7 @@ class PostPagesTests(TestCase):
         response = self.authorized_client.get(PROFILE_URL)
         self.assertEquals(response.context['author'], self.post.author)
         self.assertEquals(response.context['page'][0], self.post)
+
 
 class FollowViewsTest(TestCase):
     @classmethod

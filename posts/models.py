@@ -98,6 +98,7 @@ class Follow(models.Model):
     author = models.ForeignKey(User, verbose_name="Автор",
                                on_delete=models.CASCADE,
                                related_name="following")
+
     class Meta:
         models.UniqueConstraint(
             name="unique_follow",
