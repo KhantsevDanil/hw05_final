@@ -49,8 +49,8 @@ class GroupURLTests(TestCase):
             '/': 200,
             f'/group/{self.group.slug}/': 200,
             '/new/': 200,
-           f'/Danil/follow/': 302,
-           f'/Danil/unfollow/': 302,
+            '/Danil/follow/': 302,
+            '/Danil/unfollow/': 302,
         }
         for reverse_name, status_code in url_status_code.items():
             with self.subTest():
