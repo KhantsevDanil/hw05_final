@@ -14,12 +14,13 @@ def index(request):
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     return render(
-        request,
-        'posts/index.html',
-        {'page': page,
-         'paginator': paginator,
-         'post_list': post_list,},
-    )
+            request,
+            'posts/index.html',
+            {'page': page,
+             'paginator': paginator,
+             'post_list': post_list,},
+        )
+
 
 
 def group_posts(request, slug):
@@ -29,6 +30,7 @@ def group_posts(request, slug):
     paginator = Paginator(post_list, settings.POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    
     return render(
         request,
         'group.html',
@@ -52,17 +54,15 @@ def new_post(request):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    post = get_object_or_404(Post, author__username=username)
+    post = Post.objects.filter(author__username=username).all()
     posts = author.posts.all().order_by('-pub_date')
     paginator = Paginator(posts, settings.POSTS_PER_PAGE)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    post_list = Post.objects.all().order_by('-pub_date')
     return render(request, 'posts/profile.html', {'author': author,
                                                   'post': post,
-                                                  'paginator': paginator,
-                                                  'post_list': post_list,
                                                   'page': page,
+                                                  'paginator': paginator
                                                   })
 
 
