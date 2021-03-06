@@ -72,8 +72,8 @@ class TestNewView:
                                   ' сохранили новый пост при'
                                   ' отправки формы на странице `/new/`')
         assert response.url == reverse('posts:index'), ('Проверьте, что'
-                                     ' перенаправляете на главную'
-                                     ' страницу `/`')
+                                       ' перенаправляете на главную'
+                                       ' страницу `/`')
 
         text = 'Проверка нового поста 2!'
         response = user_client.post(url, data={'text': text})
@@ -86,7 +86,7 @@ class TestNewView:
                                   ' пост при отправки формы на'
                                   ' странице `/new/`')
         assert response.url == reverse('posts:index'), ('Проверьте, что перенаправляете'
-                                     ' на главную страницу `/`')
+                                       ' на главную страницу `/`')
 
         response = user_client.post(url)
         assert response.status_code == 200, (
