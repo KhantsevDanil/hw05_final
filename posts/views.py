@@ -92,12 +92,10 @@ def post_edit(request, username, post_id):
 
 
 def page_not_found(request, exception):
-    # Переменная exception содержит отладочную информацию,
-    # выводить её в шаблон пользователской страницы 404 мы не станем
     return render(
         request,
-        "misc/404.html",
-        {"path": request.path},
+        'misc/404.html',
+        {'path': request.path},
         status=404
     )
 
@@ -112,12 +110,13 @@ def add_comment(request, username, post_id):
     author = post.author
     form = CommentForm(request.POST or None)
     if form.is_valid():
-        comment = Comment.objects.create(post=post, author=request.user,
-                                         text=request.POST['text'])
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
         comment.save()
     return redirect(reverse('posts:post_view',
                             kwargs={'username': author.username,
-                                    "post_id": post.id}))
+                                    'post_id': post.id}))
 
 
 @login_required

@@ -1,6 +1,6 @@
-# posts/tests/test_urls.py
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
+from django.urls import reverse
 
 from posts.models import Group
 
@@ -24,9 +24,8 @@ class GroupURLTests(TestCase):
 
     def test_urls_uses_correct_template(self):
         templates_url_names = {
-            'posts/index.html': '/',
-            'group.html': f'/group/{self.group.slug}/',
-            'posts/new_post.html': '/new/',
+            'posts/index.html': reverse('posts:index'),
+            'posts/new_post.html': reverse('posts:new_post'),
         }
         for template, urls in templates_url_names.items():
             with self.subTest():
@@ -35,9 +34,9 @@ class GroupURLTests(TestCase):
 
     def test_correct_status_code_for_guest_client(self):
         url_status_code = {
-            '/': 200,
+            reverse('posts:index'): 200,
             f'/group/{self.group.slug}/': 200,
-            '/new/': 302
+            reverse('posts:new_post'): 302
         }
         for reverse_name, status_code in url_status_code.items():
             with self.subTest():
@@ -46,11 +45,11 @@ class GroupURLTests(TestCase):
 
     def test_correct_status_code_for_authorized_client(self):
         url_status_code = {
-            '/': 200,
+            reverse('posts:index'): 200,
             f'/group/{self.group.slug}/': 200,
-            '/new/': 200,
-            '/Danil/follow/': 302,
-            '/Danil/unfollow/': 302,
+            reverse('posts:new_post'): 200,
+            reverse('posts:profile_follow', args=[self.user.username]): 302,
+            reverse('posts:profile_unfollow', args=[self.user.username]): 302,
         }
         for reverse_name, status_code in url_status_code.items():
             with self.subTest():

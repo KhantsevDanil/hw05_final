@@ -22,7 +22,6 @@ class PostPagesTests(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        # Создадим запись в БД
         cls.user = User.objects.create(username=USERNAME)
         cls.group = Group.objects.create(
             title='Test',
@@ -104,11 +103,9 @@ class FollowViewsTest(TestCase):
         )
 
     def setUp(self):
-        # Создаем авторизованного клиента
         self.authorized_client = Client()
         self.authorized_client_1 = Client()
         self.authorized_client_2 = Client()
-        # Авторизуем пользователя
         self.authorized_client.force_login(self.user)
         self.authorized_client_1.force_login(self.author)
         self.authorized_client_2.force_login(self.another_user)
@@ -216,9 +213,7 @@ class CommentViewsTest(TestCase):
         )
 
     def setUp(self):
-        # Создаем авторизованного клиента
         self.authorized_client = Client()
-        # Авторизуем пользователя
         self.authorized_client.force_login(self.user)
 
     def test_comment_add_view(self):

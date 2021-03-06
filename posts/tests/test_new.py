@@ -71,7 +71,7 @@ class TestNewView:
         assert post is not None, ('Проверьте, что вы'
                                   ' сохранили новый пост при'
                                   ' отправки формы на странице `/new/`')
-        assert response.url == '/', ('Проверьте, что'
+        assert response.url == reverse('posts:index'), ('Проверьте, что'
                                      ' перенаправляете на главную'
                                      ' страницу `/`')
 
@@ -85,7 +85,7 @@ class TestNewView:
         assert post is not None, ('Проверьте, что вы сохранили новый'
                                   ' пост при отправки формы на'
                                   ' странице `/new/`')
-        assert response.url == '/', ('Проверьте, что перенаправляете'
+        assert response.url == reverse('posts:index'), ('Проверьте, что перенаправляете'
                                      ' на главную страницу `/`')
 
         response = user_client.post(url)
