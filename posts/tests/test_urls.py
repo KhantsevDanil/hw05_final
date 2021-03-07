@@ -34,9 +34,9 @@ class GroupURLTests(TestCase):
 
     def test_correct_status_code_for_guest_client(self):
         url_status_code = {
-            reverse('posts:index'): 200,
+            '/': 200,
             f'/group/{self.group.slug}/': 200,
-            reverse('posts:new_post'): 302
+            'new/': 404
         }
         for reverse_name, status_code in url_status_code.items():
             with self.subTest():
@@ -45,11 +45,11 @@ class GroupURLTests(TestCase):
 
     def test_correct_status_code_for_authorized_client(self):
         url_status_code = {
-            reverse('posts:index'): 200,
+            '/': 200,
             f'/group/{self.group.slug}/': 200,
-            reverse('posts:new_post'): 200,
-            reverse('posts:profile_follow', args=[self.user.username]): 302,
-            reverse('posts:profile_unfollow', args=[self.user.username]): 302,
+            'new/': 404,
+            f'{self.user.username}/follow/': 404,
+            f'{self.user.username}/unfollow/': 404,
         }
         for reverse_name, status_code in url_status_code.items():
             with self.subTest():
